@@ -56,7 +56,8 @@ public class FormItemController {
         model.addAttribute("item", item);
         return "form/editForm";
     }
-
+    
+    // 수정
     @PostMapping("/{itemId}/edit")
     public String edit(@PathVariable Long itemId, @ModelAttribute Item item) {
         itemRepository.update(itemId, item);
