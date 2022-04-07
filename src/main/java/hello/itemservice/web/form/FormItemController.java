@@ -2,6 +2,7 @@ package hello.itemservice.web.form;
 
 import hello.itemservice.domain.item.Item;
 import hello.itemservice.domain.item.ItemRepository;
+import hello.itemservice.domain.item.ItemType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -32,6 +33,14 @@ public class FormItemController {
         return regions;
     }
 
+    //라디오 버튼
+    @ModelAttribute("itemTypes")
+    public ItemType[] itemTypes() {
+        // ItemType.values 를 사용하면 enum 을 배열로 넘겨 받을 수 있다.
+        ItemType[] values = ItemType.values();
+        return values;
+    }
+
     @GetMapping
     public String items(Model model) {
         List<Item> items = itemRepository.findAll();
@@ -60,6 +69,8 @@ public class FormItemController {
         log.info("item.open={}", item.getOpen());
         // 서울 부산 제주 체크박스 보기
         log.info("item.regions={}", item.getRegions());
+        // 라디오 버튼(단일 선택) 체크를 안하면 null
+        log.info("item.itemType={}", item.getItemType());
         Item savedItem = itemRepository.save(item);
         redirectAttributes.addAttribute("itemId", savedItem.getId());
         redirectAttributes.addAttribute("status", true);
